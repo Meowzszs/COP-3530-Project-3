@@ -1,13 +1,81 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "ingredients.h"
+#include <tuple>
+#include <algorithm>
+
+// Placeholder for pandas DataFrame
+class DataFrame {
+    // Assuming DataFrame structure is not needed for this example
+};
+
+// Placeholder for pd.read_csv() equivalent
+DataFrame read_csv(const char* filename) {
+    // Assuming reading CSV functionality is not needed for this example
+    return DataFrame();
+}
+
+// Function for user input of micronutrients
+std::tuple<std::vector<int>, std::vector<std::string>, std::vector<std::string>> get_user_choices() {
+    std::cout << "Select 1 or 2 micronutrients from the list:" << std::endl;
+    std::cout << "1. Carbohydrate  2. Cholesterol  3. Fiber  4. Protein  5. Sugar  6. Saturated Fat" << std::endl;
+    std::cout << "7. Calcium  8. Iron  9. Potassium  10. Sodium  11. Vitamin A  12. Vitamin C" << std::endl;
+
+    // Get user input for micronutrient choices
+    std::cout << "Enter the numbers corresponding to your choices (comma-separated): ";
+    std::string micronutrient_input;
+    std::getline(std::cin, micronutrient_input);
+    std::istringstream micronutrient_stream(micronutrient_input);
+    std::vector<int> selected_micronutrients;
+    int choice;
+    while (micronutrient_stream >> choice) {
+        selected_micronutrients.push_back(choice);
+        if (micronutrient_stream.peek() == ',')
+            micronutrient_stream.ignore();
+    }
+
+    if (selected_micronutrients.size() < 1 || selected_micronutrients.size() > 2) {
+        std::cout << "Please select 1 or 2 micronutrients. Try again." << std::endl;
+        return get_user_choices();
+    }
+
+    // Get user input for high/low options
+    std::cout << "Enter 'High' or 'Low' for each selected micronutrient (comma-separated): ";
+    std::string high_low_input;
+    std::getline(std::cin, high_low_input);
+    std::istringstream high_low_stream(high_low_input);
+    std::vector<std::string> high_low_choices;
+    std::string high_low;
+    while (std::getline(high_low_stream, high_low, ',')) {
+        std::transform(high_low.begin(), high_low.end(), high_low.begin(), ::tolower);
+        high_low_choices.push_back(high_low);
+    }
+
+    if (high_low_choices.size() != selected_micronutrients.size()) {
+        std::cout << "Please enter high/low choices for each selected micronutrient. Try again." << std::endl;
+        return get_user_choices();
+    }
+
+    // Get user input for allergies
+    std::cout << "Enter any foods you have allergies to (comma-separated): ";
+    std::string allergies_input;
+    std::getline(std::cin, allergies_input);
+    std::istringstream allergies_stream(allergies_input);
+    std::vector<std::string> allergies;
+    std::string allergy;
+    while (std::getline(allergies_stream, allergy, ',')) {
+        std::transform(allergy.begin(), allergy.end(), allergy.begin(), ::tolower);
+        allergies.push_back(allergy);
+    }
+
+    return std::make_tuple(selected_micronutrients, high_low_choices, allergies);
+}
 
 int main() {
     // Placeholder for DataFrame
     DataFrame ingredientsData = read_csv("ingredients.csv");
 
-    // (can delete)
+    // Example usage (can delete)
     auto [micronutrients, high_low, allergies] = get_user_choices();
     std::cout << "Selected Micronutrients: ";
     for (int nutrient : micronutrients) std::cout << nutrient << " ";
@@ -20,6 +88,8 @@ int main() {
     std::cout << "Allergies: ";
     for (const std::string& allergy : allergies) std::cout << allergy << " ";
     std::cout << std::endl;
+
+    // Implement knapsack algorithm function here
 
     return 0;
 }
