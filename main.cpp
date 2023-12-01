@@ -3,26 +3,28 @@
 #include <sstream>
 #include <tuple>
 #include <algorithm>
+#include <string>
+#include "food_maps.h"
 
 // Placeholder for pandas DataFrame
 class DataFrame {
-    // Assuming DataFrame structure is not needed for this example
+
 };
 
-// Placeholder for pd.read_csv() equivalent
+// pd.read_csv()
 DataFrame read_csv(const char* filename) {
     // Assuming reading CSV functionality is not needed for this example
     return DataFrame();
 }
 
 // Function for user input of micronutrients
-std::tuple<std::vector<int>, std::vector<std::string>, std::vector<std::string>> get_user_choices() {
+std::tuple<std::vector<int>, std::vector<double>, std::vector<std::string>> get_user_choices() {
     std::cout << "Select 1 or 2 micronutrients from the list:" << std::endl;
     std::cout << "1. Carbohydrate  2. Cholesterol  3. Fiber  4. Protein  5. Sugar  6. Saturated Fat" << std::endl;
     std::cout << "7. Calcium  8. Iron  9. Potassium  10. Sodium  11. Vitamin A  12. Vitamin C" << std::endl;
 
     // Get user input for micronutrient choices
-    std::cout << "Enter the numbers corresponding to your choices (comma-separated): ";
+    std::cout << "Enter the numbers corresponding to your choices (comma-separated):" << std::endl;
     std::string micronutrient_input;
     std::getline(std::cin, micronutrient_input);
     std::istringstream micronutrient_stream(micronutrient_input);
@@ -39,25 +41,26 @@ std::tuple<std::vector<int>, std::vector<std::string>, std::vector<std::string>>
         return get_user_choices();
     }
 
-    // Get user input for high/low options
-    std::cout << "Enter 'High' or 'Low' for each selected micronutrient (comma-separated): ";
-    std::string high_low_input;
-    std::getline(std::cin, high_low_input);
-    std::istringstream high_low_stream(high_low_input);
-    std::vector<std::string> high_low_choices;
-    std::string high_low;
-    while (std::getline(high_low_stream, high_low, ',')) {
-        std::transform(high_low.begin(), high_low.end(), high_low.begin(), ::tolower);
-        high_low_choices.push_back(high_low);
+    // Get user input for desired nutrient levels
+    std::cout << "Enter the desired level for each selected micronutrient (comma-separated):" << std::endl;
+    std::string levels_input;
+    std::getline(std::cin, levels_input);
+    std::istringstream levels_stream(levels_input);
+    std::vector<double> nutrient_levels;
+    double level;
+    while (levels_stream >> level) {
+        nutrient_levels.push_back(level);
+        if (levels_stream.peek() == ',')
+            levels_stream.ignore();
     }
 
-    if (high_low_choices.size() != selected_micronutrients.size()) {
-        std::cout << "Please enter high/low choices for each selected micronutrient. Try again." << std::endl;
+    if (nutrient_levels.size() != selected_micronutrients.size()) {
+        std::cout << "Please enter a level for each selected micronutrient. Try again." << std::endl;
         return get_user_choices();
     }
 
     // Get user input for allergies
-    std::cout << "Enter any foods you have allergies to (comma-separated): ";
+    std::cout << "Enter any foods you have allergies to (comma-separated):" << std::endl;
     std::string allergies_input;
     std::getline(std::cin, allergies_input);
     std::istringstream allergies_stream(allergies_input);
@@ -68,28 +71,34 @@ std::tuple<std::vector<int>, std::vector<std::string>, std::vector<std::string>>
         allergies.push_back(allergy);
     }
 
-    return std::make_tuple(selected_micronutrients, high_low_choices, allergies);
+    return std::make_tuple(selected_micronutrients, nutrient_levels, allergies);
 }
 
 int main() {
-    // Placeholder for DataFrame
     DataFrame ingredientsData = read_csv("ingredients.csv");
 
-    // Example usage (can delete)
-    auto [micronutrients, high_low, allergies] = get_user_choices();
-    std::cout << "Selected Micronutrients: ";
-    for (int nutrient : micronutrients) std::cout << nutrient << " ";
+    // HYPOTHETICAL - FOR CONVERTING MAP TO FOOD ITEMS
+    //std::vector<FoodItem> foodItems = convertDataFrameToFoodItems(ingredientsData);
+
+    // Populate the maps with food item data
+    //WILL NEED TO POPULATE MAP AFTER CONVERT TO FOOD ITEM
+    //populateMaps(foodItems);
+
+    // Getting user choices
+    auto [micronutrients, nutrient_levels, allergies] = get_user_choices();
+
+    // Displaying selected micronutrients and their desired levels
+    std::cout << "Selected Micronutrients and Desired Levels: ";
+    for (size_t i = 0; i < micronutrients.size(); ++i) {
+        std::cout << micronutrients[i] << " (" << nutrient_levels[i] << ") ";
+    }
     std::cout << std::endl;
 
-    std::cout << "High/Low Choices: ";
-    for (const std::string& choice : high_low) std::cout << choice << " ";
-    std::cout << std::endl;
-
+    // Displaying allergies
     std::cout << "Allergies: ";
-    for (const std::string& allergy : allergies) std::cout << allergy << " ";
+    for (const std::string& allergy : allergies) {
+        std::cout << allergy << " ";
+    }
     std::cout << std::endl;
-
-    // Implement knapsack algorithm function here
-
     return 0;
 }

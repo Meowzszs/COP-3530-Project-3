@@ -61,6 +61,12 @@ build CMakeFiles/project3_avaV.dir/ingredients.cpp.obj: CXX_COMPILER__project3_a
   OBJECT_DIR = CMakeFiles\project3_avaV.dir
   OBJECT_FILE_DIR = CMakeFiles\project3_avaV.dir
 
+build CMakeFiles/project3_avaV.dir/food_maps.cpp.obj: CXX_COMPILER__project3_avaV_unscanned_Debug C$:/Users/arvel/CLionProjects/project3_avaV/food_maps.cpp || cmake_object_order_depends_target_project3_avaV
+  DEP_FILE = CMakeFiles\project3_avaV.dir\food_maps.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\project3_avaV.dir
+  OBJECT_FILE_DIR = CMakeFiles\project3_avaV.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target project3_avaV
@@ -69,7 +75,7 @@ build CMakeFiles/project3_avaV.dir/ingredients.cpp.obj: CXX_COMPILER__project3_a
 #############################################
 # Link the executable project3_avaV.exe
 
-build project3_avaV.exe: CXX_EXECUTABLE_LINKER__project3_avaV_Debug CMakeFiles/project3_avaV.dir/main.cpp.obj CMakeFiles/project3_avaV.dir/ingredients.cpp.obj
+build project3_avaV.exe: CXX_EXECUTABLE_LINKER__project3_avaV_Debug CMakeFiles/project3_avaV.dir/main.cpp.obj CMakeFiles/project3_avaV.dir/ingredients.cpp.obj CMakeFiles/project3_avaV.dir/food_maps.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\project3_avaV.dir
