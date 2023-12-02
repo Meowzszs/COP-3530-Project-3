@@ -7,4 +7,4 @@ add_executable(project3_avaV main.cpp
         ingredients.h
         ingredients.cpp
         Quick_Sort.cpp
-        Quick_Sort.h)
+)
