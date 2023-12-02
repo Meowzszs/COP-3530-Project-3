@@ -3,3 +3,8 @@
 //
 
 #include "bin_heap.h"
+
+// default constructor
+bin_heap::bin_heap() {
+
+}
