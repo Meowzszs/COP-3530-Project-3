@@ -18,24 +18,14 @@ void bin_heap::heapifyUp() {
     // keeping K largest elements
     if (this->high_or_low) {
         while (inserted != 0 && this->container.at(inserted).second < this->container.at(parentIndex).second) {
-            pair<FoodItem, double> parent = this->container.at(parentIndex);
-
-            // swap parent and child data
-            this->container.at(parentIndex) = this->container.at(inserted);
-            this->container.at(inserted) = parent;
-
+            this->swap(parentIndex, inserted);
             inserted = parentIndex;
             parentIndex = this->getParentIndex(inserted);
         }
     }
     else {
         while (inserted != 0 && this->container.at(inserted).second > this->container.at(parentIndex).second) {
-            pair<FoodItem, double> parent = this->container.at(parentIndex);
-
-            // swap parent and child data
-            this->container.at(parentIndex) = this->container.at(inserted);
-            this->container.at(inserted) = parent;
-
+            this->swap(parentIndex, inserted);
             inserted = parentIndex;
             parentIndex = this->getParentIndex(inserted);
         }
@@ -43,7 +33,30 @@ void bin_heap::heapifyUp() {
 }
 
 void bin_heap::heapifyDown() {
+    int replaced = 0; // index of node that was replaced (will always be the root)
+    pair<int, int> childIndices = this->getChildIndex(replaced);
 
+    if (this->high_or_low) {
+        // checks if the current node has children and if its value is greater than either of its children
+        while (childIndices.first < this->size && (this->container.at(replaced).second > this->container.at(childIndices.first).second
+            || this->container.at(replaced).second < this->container.at(childIndices.second).second)) {
+            int smaller_child = this->container.at(childIndices.first).second < this->container.at(childIndices.second).second ? childIndices.first : childIndices.second;
+            this->swap(replaced, smaller_child);
+
+            replaced = smaller_child;
+            childIndices = this->getChildIndex(replaced);
+        }
+    }
+    else {
+        while (childIndices.first < this->size && (this->container.at(replaced).second < this->container.at(childIndices.first).second
+            || this->container.at(replaced).second < this->container.at(childIndices.second).second)) {
+            int larger_child = this->container.at(childIndices.first).second > this->container.at(childIndices.second).second ? childIndices.first : childIndices.second;
+            this->swap(replaced, larger_child);
+
+            replaced = larger_child;
+            childIndices = this->getChildIndex(replaced);
+        }
+    }
 }
 
 void bin_heap::insert(FoodItem& item, double nutrient_amount) {
@@ -64,6 +77,7 @@ FoodItem bin_heap::extract() {
         // replace root node with the last node in the heap
         this->container.at(0) = this->container.at(this->size - 1);
         this->container.pop_back(); // remove last element in the heap
+        this->size--;
         this->heapifyDown();
         return root_item;
     }
@@ -84,4 +98,10 @@ void bin_heap::print() {
     for (unsigned int i = 0; i < this->container.size(); i++) {
         cout << this->container.at(i).first.description << endl;
     }
+}
+
+void bin_heap::swap(int index1, int index2) {
+    pair<FoodItem, double> temp = this->container.at(index1);
+    this->container.at(index1) = this->container.at(index2);
+    this->container.at(index2) = temp;
 }

@@ -15,6 +15,7 @@ class bin_heap {
     void heapifyDown();
     int getParentIndex(int child_index);
     pair<int, int> getChildIndex(int parent_index);
+    void swap(int index1, int index2);
 
     vector<pair<FoodItem, double>> container;
     // keep track of the k highest/lowest elements in the data stream
