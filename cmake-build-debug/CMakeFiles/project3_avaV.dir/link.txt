@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\project3_avaV.dir/objects.a
+C:\PROGRA~2\mingw64\bin\ar.exe qc CMakeFiles\project3_avaV.dir/objects.a @CMakeFiles\project3_avaV.dir\objects1.rsp
+C:\PROGRA~2\mingw64\bin\C__~1.EXE -g -Wl,--whole-archive CMakeFiles\project3_avaV.dir/objects.a -Wl,--no-whole-archive -o project3_avaV.exe -Wl,--out-implib,libproject3_avaV.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\project3_avaV.dir\linkLibs.rsp
