@@ -52,9 +52,6 @@ std::tuple<int, std::string, double, std::string> get_user_choices() {
 int main() {
     DataFrame ingredientsData = read_csv("ingredients.csv");
 
-    // HYPOTHETICAL - FOR CONVERTING MAP TO FOOD ITEMS
-    //std::vector<FoodItem> foodItems = convertDataFrameToFoodItems(ingredientsData);
-
     // Populate the maps with food item data
     //WILL NEED TO POPULATE MAP AFTER CONVERT TO FOOD ITEM
     //populateMaps(foodItems);
