@@ -39,7 +39,7 @@ void bin_heap::heapifyDown() {
     if (this->high_or_low) {
         // checks if the current node has children and if its value is greater than either of its children
         while (childIndices.first < this->size && (this->container.at(replaced).second > this->container.at(childIndices.first).second
-            || this->container.at(replaced).second < this->container.at(childIndices.second).second)) {
+            || this->container.at(replaced).second > this->container.at(childIndices.second).second)) {
             int smaller_child = this->container.at(childIndices.first).second < this->container.at(childIndices.second).second ? childIndices.first : childIndices.second;
             this->swap(replaced, smaller_child);
 
@@ -91,7 +91,7 @@ int bin_heap::getParentIndex(int child_index) {
 }
 
 pair<int, int> bin_heap::getChildIndex(int parent_index) {
-    return make_pair(2 * parent_index + 1, 2 * parent_index + 2);
+    return make_pair(2 * parent_index + 1, min(2 * parent_index + 2, this->size - 1));
 }
 
 void bin_heap::print() {
