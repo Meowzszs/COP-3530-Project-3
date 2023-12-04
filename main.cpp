@@ -15,7 +15,6 @@ class DataFrame {
 
 // pd.read_csv()
 DataFrame read_csv(const char* filename) {
-    // Assuming reading CSV functionality is not needed for this example
     return DataFrame();
 }
 
