@@ -38,8 +38,7 @@ void bin_heap::heapifyDown() {
 
     if (this->high_or_low) {
         // checks if the current node has children and if its value is greater than either of its children
-        while (childIndices.first < this->size && (this->container.at(replaced).second > this->container.at(childIndices.first).second
-            || this->container.at(replaced).second > this->container.at(childIndices.second).second)) {
+        while (childIndices.first < this->size && (this->container.at(replaced).second > this->container.at(childIndices.first).second || this->container.at(replaced).second > this->container.at(childIndices.second).second)) {
             int smaller_child = this->container.at(childIndices.first).second < this->container.at(childIndices.second).second ? childIndices.first : childIndices.second;
             this->swap(replaced, smaller_child);
 
@@ -48,8 +47,7 @@ void bin_heap::heapifyDown() {
         }
     }
     else {
-        while (childIndices.first < this->size && (this->container.at(replaced).second < this->container.at(childIndices.first).second
-            || this->container.at(replaced).second < this->container.at(childIndices.second).second)) {
+        while (childIndices.first < this->size && (this->container.at(replaced).second < this->container.at(childIndices.first).second || this->container.at(replaced).second < this->container.at(childIndices.second).second)) {
             int larger_child = this->container.at(childIndices.first).second > this->container.at(childIndices.second).second ? childIndices.first : childIndices.second;
             this->swap(replaced, larger_child);
 
@@ -96,7 +94,7 @@ pair<int, int> bin_heap::getChildIndex(int parent_index) {
 
 void bin_heap::print() {
     for (unsigned int i = 0; i < this->container.size(); i++) {
-        cout << this->container.at(i).first.description << endl;
+        cout << this->container.at(i).first.name << endl;
     }
 }
 

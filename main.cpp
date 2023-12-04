@@ -2,21 +2,11 @@
 #include <vector>
 #include <sstream>
 #include <tuple>
-#include <algorithm>
 #include <string>
 #include <limits>
 #include <fstream>
-#include "food_maps.h"
 
-// Placeholder for pandas DataFrame
-class DataFrame {
-
-};
-
-// pd.read_csv()
-DataFrame read_csv(const char* filename) {
-    return DataFrame();
-}
+#include "bin_heap.h"
 
 // Function for user input of micronutrients
 std::tuple<int, std::string, double, std::string> get_user_choices() {
@@ -50,31 +40,40 @@ std::tuple<int, std::string, double, std::string> get_user_choices() {
 }
 
 void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodItems) {
-    std::ifstream file(filename);
+    std::fstream dataFile(filename);
     std::string line, cell;
-    while (getline(file, line)) {
-        std::stringstream lineStream(line);
-        std::string name;
-        //indices: 0-carbs, 1-cholesterol, 2-fiber, 3-protein, 4-sugar, 5-saturated fat, 6-calcium, 7-iron, 8-potassium, 9-sodium, 10-vitamin A, 11-vitamin C
-        std::vector<double> nutrients;
+    if (dataFile.is_open()) {
+        cout << "file is open" << endl;
+        while (getline(dataFile, line)) {
+            FoodItem item_to_add = FoodItem("", vector<double>{});
+            int data_position = 0;
+            cout << line << endl;
+            std::stringstream lineStream(line);
+            //indices: 0-carbs, 1-cholesterol, 2-fiber, 3-protein, 4-sugar, 5-saturated fat, 6-calcium, 7-iron, 8-potassium, 9-sodium, 10-vitamin A, 11-vitamin C
+            std::vector<double> nutrients;
 
-        // Read the food item's name
-        getline(lineStream, name, ',');
-
-        // Read each micronutrient value
-        while (getline(lineStream, cell, ',')) {
-            nutrients.push_back(std::stod(cell));
+            // Read each micronutrient value
+            while (getline(lineStream, cell, ',')) {
+                if (data_position == 0) {
+                    item_to_add.name = cell;
+                }
+                else if (data_position > 1) {
+                    item_to_add.micronutrients.push_back(std::stod(cell));
+                }
+                data_position++;
+            }
+            foodItems.push_back(item_to_add);
         }
-
-        foodItems.emplace_back(name, nutrients);
     }
+
+    dataFile.close();
 }
 
 int main() {
-    DataFrame ingredientsData = read_csv("ingredients.csv");
-
     std::vector<FoodItem> foodItems;
-    populateFoodMap("ingredients.csv", foodItems);
+    populateFoodMap("../ingredients_v2.csv", foodItems);
+
+    cout << foodItems.size() << endl;
 
     // Getting user choices including allergies
     auto user_choices = get_user_choices();
@@ -82,6 +81,12 @@ int main() {
     std::string max_or_min = std::get<1>(user_choices);
     double value = std::get<2>(user_choices);
     std::string allergies = std::get<3>(user_choices);
+
+    bin_heap foodHeap(10, max_or_min == "max" ? 1 : 0);
+    for (unsigned int i = 0; i < foodItems.size(); i++) {
+        foodHeap.insert(foodItems.at(i), foodItems.at(i).micronutrients.at(micronutrient_choice - 1));
+    }
+    foodHeap.print();
 
     return 0;
 }
