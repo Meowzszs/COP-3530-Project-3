@@ -4,7 +4,7 @@
 #include <string>
 #include "food_maps.h"
 
-int partition(std::map<std::string, std::vector<FoodItem>>& list, int low, int high) {
+int partition(std::vector<FoodItem>& list, int low, int high) {
     int pivot = list[low];
     int up = low, down = high;
 
@@ -21,13 +21,13 @@ int partition(std::map<std::string, std::vector<FoodItem>>& list, int low, int h
             down--;
         }
         if(up<down)
-            swap(&list[up],&list[down]);
+            iter_swap(list.begin()+up,list.begin()+down);
     }
-    swap(&list[low],&list[down])
+    iter_swap(list.begin()+low,list.begin()+down);
     return down;
 }
 
-void Quick_Sort(std::map<std::string, std::vector<FoodItem>>& list, int low, int high) {
+void Quick_Sort(std::vector<FoodItem>& list, int low, int high) {
     if(low < high)
     {
         int pivot = partition(list,low,high);
