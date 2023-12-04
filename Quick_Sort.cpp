@@ -36,15 +36,4 @@ void Quick_Sort(std::vector<FoodItem>& list, int low, int high, int type) {
     }
 }
 
-//Quick_Sort implementation
-Quick_Sort(foodItems, 0, foodItems.size()-1,micronutrient_choice);
-if(max_or_min == "max") {
-for(int i = 1;i<=10;i++) {
-std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice] << std::endl;
-}
-}
-else {
-for(int i = 0;i<10;i++) {
-std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice] << std::endl;
-}
-}
+
