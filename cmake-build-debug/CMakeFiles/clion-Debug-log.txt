@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\User\CLionProjects\COP-3530-Project-3 -B C:\Users\User\CLionProjects\COP-3530-Project-3\cmake-build-debug
--- Configuring done (0.2s)
--- Generating done (0.1s)
--- Build files have been written to: C:/Users/User/CLionProjects/COP-3530-Project-3/cmake-build-debug
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\arvel\CLionProjects\project3_avaV -B C:\Users\arvel\CLionProjects\project3_avaV\cmake-build-debug
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/Users/arvel/CLionProjects/project3_avaV/cmake-build-debug

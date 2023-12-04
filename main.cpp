@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <limits>
+#include <fstream>
 #include "food_maps.h"
 
 // Placeholder for pandas DataFrame
@@ -49,12 +50,32 @@ std::tuple<int, std::string, double, std::string> get_user_choices() {
     return std::make_tuple(choice, max_or_min, value, allergies);
 }
 
+void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodItems) {
+    std::ifstream file(filename);
+    std::string line, cell;
+    while (getline(file, line)) {
+        std::stringstream lineStream(line);
+        std::string name;
+        //indices: 0-carbs, 1-cholesterol, 2-fiber, 3-protein, 4-sugar, 5-saturated fat, 6-calcium, 7-iron, 8-potassium, 9-sodium, 10-vitamin A, 11-vitamin C
+        std::vector<double> nutrients;
+
+        // Read the food item's name
+        getline(lineStream, name, ',');
+
+        // Read each micronutrient value
+        while (getline(lineStream, cell, ',')) {
+            nutrients.push_back(std::stod(cell));
+        }
+
+        foodItems.emplace_back(name, nutrients);
+    }
+}
+
 int main() {
     DataFrame ingredientsData = read_csv("ingredients.csv");
 
-    // Populate the maps with food item data
-    //WILL NEED TO POPULATE MAP AFTER CONVERT TO FOOD ITEM
-    //populateMaps(foodItems);
+    std::vector<FoodItem> foodItems;
+    populateFoodMap("ingredients.csv", foodItems);
 
     // Getting user choices including allergies
     auto user_choices = get_user_choices();
