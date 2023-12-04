@@ -73,8 +73,6 @@ int main() {
     std::vector<FoodItem> foodItems;
     populateFoodMap("../ingredients_v2.csv", foodItems);
 
-    cout << foodItems.size() << endl;
-
     // Getting user choices including allergies
     auto user_choices = get_user_choices();
     int micronutrient_choice = std::get<0>(user_choices);
@@ -82,11 +80,19 @@ int main() {
     double value = std::get<2>(user_choices);
     std::string allergies = std::get<3>(user_choices);
 
+    auto beforeHeap = std::chrono::high_resolution_clock::now();
     bin_heap foodHeap(10, max_or_min == "max" ? 1 : 0);
     for (unsigned int i = 0; i < foodItems.size(); i++) {
         foodHeap.insert(foodItems.at(i), foodItems.at(i).micronutrients.at(micronutrient_choice - 1));
     }
+    auto afterHeap = std::chrono::high_resolution_clock::now();
+    double heapDuration = chrono::duration_cast<chrono::milliseconds>(afterHeap - beforeHeap).count();
+
     foodHeap.print();
+    cout << "The modified heap sort algorithm required " << heapDuration << " milliseconds to complete." << endl;
+
+    // run QuickSort in a similar fashion down here
+    //          vvv     vvv
 
     return 0;
 }

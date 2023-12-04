@@ -94,7 +94,7 @@ pair<int, int> bin_heap::getChildIndex(int parent_index) {
 
 void bin_heap::print() {
     for (unsigned int i = 0; i < this->container.size(); i++) {
-        cout << this->container.at(i).first.name << endl;
+        cout << this->container.at(i).first.name << ": " << this->container.at(i).second << endl;
     }
 }
 
