@@ -46,7 +46,7 @@ void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodIte
     if (dataFile.is_open()) {
         cout << "file is open" << endl;
         while (getline(dataFile, line)) {
-            FoodItem item_to_add = FoodItem("", vector<double>{});
+            FoodItem item_to_add = FoodItem();
             int data_position = 0;
             cout << line << endl;
             std::stringstream lineStream(line);
@@ -128,15 +128,15 @@ int main() {
     //          vvv     vvv
     //Quick_Sort implementation
     auto beforeQuick = std::chrono::high_resolution_clock::now();
-    Quick_Sort(foodItems, 0, foodItems.size()-1,micronutrient_choice);
+    Quick_Sort(foodItems, 0, foodItems.size()-1,micronutrient_choice-1);
     if(max_or_min == "max") {
         for(int i = 1;i<=10;i++) {
-            std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice] << std::endl;
+            std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     else {
         for(int i = 0;i<10;i++) {
-            std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice] << std::endl;
+            std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     auto afterQuick = std::chrono::high_resolution_clock::now();
