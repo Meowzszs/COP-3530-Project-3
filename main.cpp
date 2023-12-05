@@ -49,9 +49,6 @@ void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodIte
 
     // Check if the file is open
     if (dataFile.is_open()) {
-        // Inform that the file is open
-        cout << "file is open" << endl;
-
         // Read each line in the CSV file
         while (getline(dataFile, line)) {
             // Create a new FoodItem for each line
@@ -144,9 +141,10 @@ int main() {
 
     // Timing the Heap Sort Algorithm
     auto beforeHeap = std::chrono::high_resolution_clock::now();
-    // Creating a binary heap and inserting food items
+    // Create a binary min/max heap with capacity 10
     bin_heap foodHeap(10, max_or_min == "max" ? 1 : 0);
     for (unsigned int i = 0; i < foodItems.size(); i++) {
+        // insert every element from the dataset into the heap
         foodHeap.insert(foodItems.at(i), foodItems.at(i).micronutrients.at(micronutrient_choice - 1));
     }
     auto afterHeap = std::chrono::high_resolution_clock::now();
