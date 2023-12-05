@@ -73,7 +73,7 @@ void bin_heap::heapifyDown() {
 void bin_heap::insert(FoodItem& item, double nutrient_amount) {
     // ensures that once the heap is full, elements with values smaller than the minimum in the heap do not get inserted, which
     // should reduce the time it takes for the algorithm to complete
-    if (this->size < this->k || nutrient_amount >= this->container.at(0).second) {
+    if (this->size < this->k || (this->high_or_low ? nutrient_amount >= this->container.at(0).second : nutrient_amount <= this->container.at(0).second)) {
         this->container.push_back(make_pair(item, nutrient_amount));
         this->size++;
         this->heapifyUp(); // make sure heap properties are satisfied
