@@ -87,29 +87,40 @@ void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodIte
     dataFile.close();
 }
 
+// Partition function for QuickSort
 int partition(std::vector<FoodItem>& list, int low, int high, int type) {
+    // Selecting the pivot element (using the first element in the range)
     int pivot = list[low].micronutrients[type];
+    // Indices for traversing the array
     int up = low, down = high;
 
-    while (up<down)
-    {
-        for(int i = up;i<high;i++) {
+    // Continue until up and down indices meet
+    while (up < down) {
+        // Find an element greater than the pivot from the left side
+        for(int i = up; i < high; i++) {
             if(list[up].micronutrients[type] > pivot)
                 break;
             up++;
         }
-        for(int i = high;i>low;i--) {
+        // Find an element smaller than the pivot from the right side
+        for(int i = high; i > low; i--) {
             if(list[down].micronutrients[type] < pivot)
                 break;
             down--;
         }
-        if(up<down)
-            iter_swap(list.begin()+up,list.begin()+down);
+        // Swap elements if found (and up is still less than down)
+        if(up < down)
+            iter_swap(list.begin()+up, list.begin()+down);
     }
-    iter_swap(list.begin()+low,list.begin()+down);
+
+    // Swap the pivot element to its final sorted position
+    iter_swap(list.begin()+low, list.begin()+down);
+
+    // Return the index of the pivot element
     return down;
 }
 
+//QuickSort implementation here
 void Quick_Sort(std::vector<FoodItem>& list, int low, int high, int type) {
     if(low < high)
     {
@@ -120,45 +131,49 @@ void Quick_Sort(std::vector<FoodItem>& list, int low, int high, int type) {
 }
 
 int main() {
+    // Vector to store food items
     std::vector<FoodItem> foodItems;
+
+    // Populate the foodItems vector from the CSV file
     populateFoodMap("../ingredients_v2.csv", foodItems);
 
-    // Getting user choices including allergies
+    // Getting user choices
     auto user_choices = get_user_choices();
     int micronutrient_choice = std::get<0>(user_choices);
     std::string max_or_min = std::get<1>(user_choices);
-    double value = std::get<2>(user_choices);
-    std::string allergies = std::get<3>(user_choices);
 
+    // Timing the Heap Sort Algorithm
     auto beforeHeap = std::chrono::high_resolution_clock::now();
+    // Creating a binary heap and inserting food items
     bin_heap foodHeap(10, max_or_min == "max" ? 1 : 0);
     for (unsigned int i = 0; i < foodItems.size(); i++) {
         foodHeap.insert(foodItems.at(i), foodItems.at(i).micronutrients.at(micronutrient_choice - 1));
     }
     auto afterHeap = std::chrono::high_resolution_clock::now();
+    // Calculating and displaying the duration of Heap Sort
     double heapDuration = chrono::duration_cast<chrono::milliseconds>(afterHeap - beforeHeap).count();
-
     foodHeap.print();
     cout << "The modified heap sort algorithm required " << heapDuration << " milliseconds to complete." << endl;
 
-    // run QuickSort in a similar fashion down here
-    //          vvv     vvv
-    //Quick_Sort implementation
+    // Timing the Quick Sort Algorithm
     auto beforeQuick = std::chrono::high_resolution_clock::now();
-    Quick_Sort(foodItems, 0, foodItems.size()-1,micronutrient_choice-1);
+    // Running QuickSort on the foodItems vector
+    Quick_Sort(foodItems, 0, foodItems.size()-1, micronutrient_choice-1);
+    // Displaying top 10 food items after QuickSort based on user choice
     if(max_or_min == "max") {
-        for(int i = 1;i<=10;i++) {
+        for(int i = 1; i <= 10; i++) {
             std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     else {
-        for(int i = 0;i<10;i++) {
+        for(int i = 0; i < 10; i++) {
             std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     auto afterQuick = std::chrono::high_resolution_clock::now();
-    double QuickDuration = chrono::duration_cast<chrono::milliseconds>(afterHeap - beforeHeap).count();
-    cout << "The Quick sort algorithm required " << QuickDuration << " milliseconds to complete." << endl;
+    // Calculating and displaying the duration of Quick Sort
+    double quickDuration = chrono::duration_cast<chrono::milliseconds>(afterQuick - beforeQuick).count();
+    cout << "The Quick sort algorithm required " << quickDuration << " milliseconds to complete." << endl;
 
     return 0;
 }
