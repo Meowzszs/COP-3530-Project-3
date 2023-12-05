@@ -10,7 +10,7 @@
 #include "bin_heap.h"
 
 // Function for user input of micronutrients
-std::tuple<int, std::string, double, std::string> get_user_choices() {
+std::tuple<int, std::string> get_user_choices() {
     std::cout << "Select a micronutrient from the list:" << std::endl;
     std::cout << "1. Carbohydrate  2. Cholesterol  3. Fiber  4. Protein  5. Sugar  6. Saturated Fat" << std::endl;
     std::cout << "7. Calcium  8. Iron  9. Potassium  10. Sodium  11. Vitamin A  12. Vitamin C" << std::endl;
@@ -26,18 +26,7 @@ std::tuple<int, std::string, double, std::string> get_user_choices() {
     std::cout << "Do you want the value to be a maximum or minimum? (Enter 'max' or 'min')" << std::endl;
     std::getline(std::cin, max_or_min);
 
-    // Get the value for the chosen micronutrient
-    double value;
-    std::cout << "Enter the value for your chosen micronutrient:" << std::endl;
-    std::cin >> value;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    // Ask for allergies
-    std::string allergies;
-    std::cout << "Enter any allergies (comma-separated, enter 'none' if no allergies):" << std::endl;
-    std::getline(std::cin, allergies);
-
-    return std::make_tuple(choice, max_or_min, value, allergies);
+    return std::make_tuple(choice, max_or_min);
 }
 
 // Function to populate the foodItems vector from a CSV file
