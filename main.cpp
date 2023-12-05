@@ -71,9 +71,11 @@ void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodIte
 }
 
 int partition(std::vector<FoodItem>& list, int low, int high, int type) {
+    //Declares the pivot as the first in the array
     int pivot = list[low].micronutrients[type];
     int up = low, down = high;
 
+    //goes through array arranging it so that all is smaller on the left side of the pivot and larger on the right
     while (up<down)
     {
         for(int i = up;i<high;i++) {
@@ -94,6 +96,7 @@ int partition(std::vector<FoodItem>& list, int low, int high, int type) {
 }
 
 void Quick_Sort(std::vector<FoodItem>& list, int low, int high, int type) {
+    //Sorts around a pivot while dividing the array
     if(low < high)
     {
         int pivot = partition(list,low,high,type);
@@ -128,19 +131,22 @@ int main() {
     //          vvv     vvv
     //Quick_Sort implementation
     auto beforeQuick = std::chrono::high_resolution_clock::now();
+    //input's the lowest index and the heighest as well as the type of micronutrient subtracted by 1
     Quick_Sort(foodItems, 0, foodItems.size()-1,micronutrient_choice-1);
     if(max_or_min == "max") {
         for(int i = 1;i<=10;i++) {
+            //print max
             std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     else {
         for(int i = 0;i<10;i++) {
+            //print min
             std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     auto afterQuick = std::chrono::high_resolution_clock::now();
-    double QuickDuration = chrono::duration_cast<chrono::milliseconds>(afterHeap - beforeHeap).count();
+    double QuickDuration = chrono::duration_cast<chrono::milliseconds>(afterQuick - beforeQuick).count();
     cout << "The Quick sort algorithm required " << QuickDuration << " milliseconds to complete." << endl;
 
     return 0;
