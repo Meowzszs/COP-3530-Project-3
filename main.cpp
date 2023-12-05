@@ -40,33 +40,50 @@ std::tuple<int, std::string, double, std::string> get_user_choices() {
     return std::make_tuple(choice, max_or_min, value, allergies);
 }
 
+// Function to populate the foodItems vector from a CSV file
 void populateFoodMap(const std::string& filename, std::vector<FoodItem>& foodItems) {
+    // Open the CSV file
     std::fstream dataFile(filename);
+    // Strings to store a line and a cell from the CSV
     std::string line, cell;
+
+    // Check if the file is open
     if (dataFile.is_open()) {
+        // Inform that the file is open
         cout << "file is open" << endl;
+
+        // Read each line in the CSV file
         while (getline(dataFile, line)) {
+            // Create a new FoodItem for each line
             FoodItem item_to_add = FoodItem();
+
+            // Initialize the position of data in the CSV
             int data_position = 0;
             cout << line << endl;
+
+            // Use stringstream to separate cells in the line
             std::stringstream lineStream(line);
-            //indices: 0-carbs, 1-cholesterol, 2-fiber, 3-protein, 4-sugar, 5-saturated fat, 6-calcium, 7-iron, 8-potassium, 9-sodium, 10-vitamin A, 11-vitamin C
+
+            // Vector to store nutrient values for the current food item
             std::vector<double> nutrients;
 
-            // Read each micronutrient value
+            // Read each micronutrient value separated by commas
             while (getline(lineStream, cell, ',')) {
+                // The first cell contains the name of the food item
                 if (data_position == 0) {
                     item_to_add.name = cell;
                 }
+                    // For cells beyond the first, add the nutrient values to the micronutrients vector
                 else if (data_position > 1) {
                     item_to_add.micronutrients.push_back(std::stod(cell));
                 }
+                // Increment the data position
                 data_position++;
             }
+            // Add the populated FoodItem to the foodItems vector
             foodItems.push_back(item_to_add);
         }
     }
-
     dataFile.close();
 }
 
