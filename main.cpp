@@ -150,12 +150,12 @@ int main() {
 
     if(max_or_min == "max") {
         for(int i = 1; i <= 10; i++) {
-            std::cout << foodItems[foodItems.size() - i].name << " " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice-1] << std::endl;
+            std::cout << i << ". " << foodItems[foodItems.size() - i].name << ": " << foodItems[foodItems.size() - i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
     else {
         for(int i = 0; i < 10; i++) {
-            std::cout << foodItems[i].name << " " <<  foodItems[i].micronutrients[micronutrient_choice-1] << std::endl;
+            std::cout << i + 1 << ". " << foodItems[i].name << ": " <<  foodItems[i].micronutrients[micronutrient_choice-1] << std::endl;
         }
     }
 
