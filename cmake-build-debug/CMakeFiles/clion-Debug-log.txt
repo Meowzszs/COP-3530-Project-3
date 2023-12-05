@@ -1,4 +1,13 @@
 "C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\arvel\CLionProjects\project3_avaV -B C:\Users\arvel\CLionProjects\project3_avaV\cmake-build-debug
--- Configuring done (0.1s)
--- Generating done (0.0s)
--- Build files have been written to: C:/Users/arvel/CLionProjects/project3_avaV/cmake-build-debug
+-- Configuring done (3.0s)
+CMake Error at CMakeLists.txt:6 (add_executable):
+  Cannot find source file:
+
+    Quick_Sort.cpp
+
+
+CMake Error at CMakeLists.txt:6 (add_executable):
+  No SOURCES given to target: project3_avaV
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.
